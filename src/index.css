@@ -1,0 +1,73 @@
+body {
+  margin: 0;
+  padding: 0;
+  /* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif; */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body .pi{
+  font-size: 1.6em !important;
+}
+
+body .p-slidemenu .p-menuitem .p-menuitem-link .p-submenu-icon{
+  right: 0.7em
+}
+
+header{
+  background: #fefefe;
+  border-bottom: solid 0.1em #eee;
+}
+
+footer{
+  background: #dedede;
+  border-top: solid 0.1em #eee;
+  font-size: 1.1em;
+  padding: 10px;
+}
+
+h4,
+h3,
+h2,
+h1{
+  margin: 10px 0;
+}
+
+.centerAlign{
+  text-align: center;
+}
+.rightAlign{
+  text-align: right;
+}
+.leftAlign{
+  text-align: left;
+}
+.padding15{
+  padding: 1.5em;
+}
+.margin25{
+  margin-right: 2.5em;
+}
+.pdTL10 {
+  padding: 1em 0 0 1em;
+}
+.pdTR10 {
+  padding: 1em 1em 0 0;
+}
+
+/* override sidebar */
+.sidebar-title {
+  margin: 0 0 1em 0;
+}
+.p-sidebar {
+  padding: 1.5em !important;
+}
+.p-sidebar-close.p-link {
+  margin-top: -1.4em;
+  margin-right: -1.4em;
+}
+.mxWidth480{
+  max-width: 48em;
+  margin: 0 auto;
+}
