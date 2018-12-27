@@ -5,7 +5,7 @@ Please visit [https://reunipri.surge.sh](http://reunipri.surge.sh)
 
 ## Development
 
-Save file `.env.example` as `.env` change configuration variable as you need.
+Save file `example.env` as `.env` change configuration variable as you need.
 
 Then in the project directory, you can run:
 
