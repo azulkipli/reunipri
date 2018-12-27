@@ -2,12 +2,9 @@ import createStore from "unistore";
 import devtools from "unistore/devtools";
 // import persistStore from "unissist";
 // import localStorageAdapter from "unissist/integrations/localStorageAdapter";
-// import { uniq } from "lodash";
-// import {fakeListResto} from "./sampleData";
-// import createHistory from "history/createBrowserHistory";
-// const history = createHistory();
-// Get the current location.
-// const location = history.location;
+import { uniq } from "lodash";
+import axios from "axios";
+import { fakeListResto } from "./sampleData";
 
 const initialState = {
   email: "",
@@ -17,6 +14,8 @@ const initialState = {
   user_name: "",
   mobile_phone: "",
   isLogin: false,
+  isLoginLoading: false,
+  loginMessage: "",
   isMobile: true,
   listResto: [],
   listOpenTimes: []
@@ -33,78 +32,94 @@ export const store =
 
 const env = process.env;
 
-console.log('env.REACT_APP_API_LOGIN',env.REACT_APP_API_LOGIN)
-
 export const actions = store => ({
   // Actions can just return a state update:
   setField: ({ email, password }, event) => {
     if (event.target.name === "email") return { email: event.target.value };
     if (event.target.name === "password") return { password: event.target.value };
   },
-  // async getResto(state) {
-  //   let result = await axios
-  //     .get(env.REACT_APP_API_RESTO_LIST)
-  //     .then(function(response) {
-  //       // handle success
-  //       return response.data;
-  //     })
-  //     .catch(function(error) {
-  //       // handle error
-  //       console.log('error getResto',error);
-  //       return fakeListResto;
-  //     });
 
-  //   return { listResto: uniq(result) };
-  // },
+  async getResto(state) {
+    return { listResto: fakeListResto };
+    // await reqwest({
+    //   url: env.REACT_APP_API_RESTO_LIST,
+    //   method: "get",
+    //   success: function(resp) {
+    //     console.log("getResto response: ", resp);
+    //     return { listResto: uniq(resp) };
+    //   },
+    //   error: function(err) {
+    //     return { listResto: fakeListResto };
+    //   }
+    // });
+  },
 
-  // async doSignup(state) {
-  //   let result = await axios
-  //     .get(env.REACT_APP_API_LOGIN)
-  //     .then(function(response) {
-  //       // handle success
-  //       console.log(response.data);
-  //       return true;
-  //     })
-  //     .catch(function(error) {
-  //       // handle error
-  //       console.log(error);
-  //     });
-  //   console.log("doSignup result", result);
-  //   return { login: true };
-  // },
+  async doLogout(state) {
+    let result = await axios
+      .get(env.REACT_APP_API_LOGIN)
+      .then(resp => {
+        // handle success
+        // console.log("doLogin response", resp);
+        return resp.data;
+      })
+      .catch(err => {
+        // handle error
+        console.log("doLogin error", err);
+        if (!err.response) {
+          return { status: 0 };
+        } else {
+          return { status: err.response.status };
+        }
+      });
 
-  // async doLogout(state) {
-  //   let result = await axios
-  //     .get(env.REACT_APP_API_LOGIN)
-  //     .then(function(response) {
-  //       // handle success
-  //       console.log("doLogout res", response.data);
-  //       return true;
-  //     })
-  //     .catch(function(error) {
-  //       // handle error
-  //       console.log(error);
-  //     });
-  //   console.log("doLogout result", result);
-  //   if (result) {
-  //     // history.push("/");
-  //     return { login: false };
-  //   }
-  // },
+    if (result.hasOwnProperty("app")) {
+      // console.log("doLogin has app");
+      return { isLogin: false, isLoginLoading: false };
+    } else if (result.status === 0) {
+      // console.log("doLogin has error 0");
+      return { isLogin: true, isLoginLoading: false, loginMessage: "No connection to server" };
+    } else if (result.status === 404) {
+      // console.log("doLogin has error 404");
+      return { isLogin: true, isLoginLoading: false, loginMessage: "Endpoint not found" };
+    } else {
+      return { isLogin: true, isLoginLoading: false };
+    }
+  },
 
-  // async doLogin(state) {
-  //   let result = await axios
-  //     .get(env.REACT_APP_API_LOGIN)
-  //     .then(function(response) {
-  //       // handle success
-  //       console.log(response.data);
-  //       return true;
-  //     })
-  //     .catch(function(error) {
-  //       // handle error
-  //       console.log(error);
-  //     });
-  //   console.log("doLogin result", result);
-  //   return { isLogin: result };
-  // }
+  async doLogin(state) {
+    store.setState({ isLoginLoading: true });
+    let result = await axios
+      .get(env.REACT_APP_API_LOGIN)
+      .then(resp => {
+        // handle success
+        // console.log("doLogin response", resp);
+        return resp.data;
+      })
+      .catch(err => {
+        // handle error
+        console.log("doLogin error", err);
+        if (!err.response) {
+          return { status: 0 };
+        } else {
+          return { status: err.response.status };
+        }
+      });
+
+    setTimeout(() => {
+      console.log("doLogin result", result);
+    }, 2000);
+
+    if (result.hasOwnProperty("app")) {
+      // console.log("doLogin has app");
+      return { isLogin: true, isLoginLoading: false };
+    } else if (result.status === 0) {
+      // console.log("doLogin has error 0");
+      return { isLogin: false, isLoginLoading: false, loginMessage: "No connection to server" };
+    } else if (result.status === 404) {
+      // console.log("doLogin has error 404");
+      return { isLogin: false, isLoginLoading: false, loginMessage: "Endpoint not found" };
+    } else {
+      return { isLogin: false, isLoginLoading: false };
+    }
+  }
 });

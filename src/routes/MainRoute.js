@@ -4,7 +4,7 @@ import { Route, Redirect, Switch } from "react-router-dom";
 import { connect } from "unistore/react";
 import { actions } from "../store";
 
-const Loading = () => <div>loading...</div>;
+const Loading = () => <i className="pi pi-spin pi-spinner" style={{'fontSize': '2em'}}></i>;
 
 const NoMatch = Loadable({
   loader: () => import(/* webpackChunkName: "nomatch"*/ "../pages/NoMatch"),
@@ -36,9 +36,9 @@ const Favorite = Loadable({
 });
 
 const PrivateRoute = ({ component: Component, ...args }) => {
-  console.log("args", args);
+  // console.log("args", args);
   const isLogin = args.isLogin;
-  console.log("args isLogin", isLogin);
+  // console.log("args isLogin", isLogin);
   return (
     <Route
       {...args}
@@ -58,10 +58,10 @@ const MainRoute = connect(
   actions
 )(({ isLogin }) => {
   const c_store = JSON.parse(localStorage.getItem("unistorePersist")) || {};
-  console.log("c_store", c_store);
+  // console.log("c_store", c_store);
   let current_login = isLogin;
   if (c_store.hasOwnProperty("isLogin") && c_store.isLogin) current_login = c_store.isLogin;
-  console.log("current_login", current_login);
+  // console.log("current_login", current_login);
   return (
     <Switch>
       <Route exact path="/" component={Home} />

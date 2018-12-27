@@ -7,7 +7,7 @@ import { actions } from "../store";
 class Favorite extends React.Component {
   
   render() {
-    return (<h1>Favorite Resto</h1>);
+    return (<div className="favorite"><h1 className="centerAlign">Favorite Resto</h1></div>);
   }
 }
 

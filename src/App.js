@@ -11,43 +11,31 @@ import logo from "./images/resist_logo.png";
 import MainRoute from "./routes/MainRoute";
 // primereact
 import { Button } from "primereact/button";
+import { Growl } from "primereact/growl";
 import { SlideMenu } from "primereact/slidemenu";
 
 // const
 
 class App extends Component {
   state = {
-    windowHeight: window.innerHeight,
-    count: 0,
     menuButton: true
   };
 
   componentDidMount() {
-    window.addEventListener("resize", this.handleResize);
+    const { getResto } = this.props;
+
+    getResto().then(value => {
+      console.log("getResto value", value);
+    });
   }
-
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.handleResize);
-  }
-
-  handleResize = e => {
-    this.setState({ windowHeight: window.innerHeight });
-  };
-
-  increment = () => {
-    this.setState({ count: this.state.count + 1 });
-  };
 
   toggleButtonMenu = () => {
     this.setState({ menuButton: !this.state.menuButton });
   };
 
   render() {
-    const { menuButton, windowHeight } = this.state;
-    const { history } = this.props;
-    const minHeight = windowHeight - 132;
-
-    // const { isLogin, location } = this.props;
+    const { menuButton } = this.state;
+    const { history, isLogin, doLogout } = this.props;
     // const minHeight = this.state.windowHeight - 85;
     // set home path & navigation back
     // const pathname = location.pathname;
@@ -55,15 +43,7 @@ class App extends Component {
     // const exclNavback = ["/", home];
     // const showNavback = !exclNavback.includes(pathname);
 
-    const menu_items = [
-      {
-        label: "Favorite",
-        icon: "pi pi-file",
-        command: e => {
-          history.push("/favorite");
-          this.menu.toggle(e);
-        }
-      },
+    const menu_items_anonim = [
       {
         label: "Signin",
         icon: "pi pi-sign-in",
@@ -71,9 +51,6 @@ class App extends Component {
           history.push("/signin");
           this.menu.toggle(e);
         }
-      },
-      {
-        separator: true
       },
       {
         label: "Signup",
@@ -88,13 +65,55 @@ class App extends Component {
       },
       {
         label: "Repo",
-        icon: "pi pi-sign-out",
+        icon: "pi pi-external-link",
         command: e => {
           this.menu.toggle(e);
-          window.open('https://github.com/azulkipli/reunipri', '_blank');
+          window.open("https://github.com/azulkipli/reunipri", "_blank");
         }
       }
     ];
+
+    const menu_items_login = [
+      {
+        label: "Favorite",
+        icon: "pi pi-star",
+        command: e => {
+          history.push("/favorite");
+          this.menu.toggle(e);
+        }
+      },
+      {
+        label: "Signout",
+        icon: "pi pi-sign-out",
+        command: e => {
+          doLogout().then(() => {
+            console.log('logout isLogin', isLogin);
+            if (!isLogin) {
+              this.menu.toggle(e);
+              history.push("/");
+            }
+          });
+          this.menu.toggle(e);
+          this.growl.show({ severity: "success", summary: "Logout", detail: "You are already logout" });
+          setTimeout(() => {
+            history.push("/");            
+          }, 1500);
+        }
+      },
+      {
+        separator: true
+      },
+      {
+        label: "Repo",
+        icon: "pi pi-external-link",
+        command: e => {
+          this.menu.toggle(e);
+          window.open("https://github.com/azulkipli/reunipri", "_blank");
+        }
+      }
+    ];
+
+    const menu_items = isLogin ? menu_items_login : menu_items_anonim;
 
     // return components
     return (
@@ -135,7 +154,7 @@ class App extends Component {
           </div>
         </header>
 
-        <section style={{ minHeight: minHeight }}>
+        <section className="container-section">
           <MainRoute />
         </section>
 
@@ -147,6 +166,9 @@ class App extends Component {
             </a>
           </div>
         </footer>
+
+        <Growl ref={el => (this.growl = el)}  />
+
       </div>
     );
   }
