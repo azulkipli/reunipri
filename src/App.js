@@ -45,6 +45,14 @@ class App extends Component {
 
     const menu_items_anonim = [
       {
+        label: "Favorite",
+        icon: "pi pi-star",
+        command: e => {
+          history.push("/favorite");
+          this.menu.toggle(e);
+        }
+      },
+      {
         label: "Signin",
         icon: "pi pi-sign-in",
         command: e => {

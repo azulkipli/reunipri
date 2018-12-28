@@ -18,7 +18,7 @@ body .p-slidemenu .p-menuitem .p-menuitem-link .p-submenu-icon {
 }
 
 header {
-  background: #fefefe;
+  background: #fdfdfd;
   border-bottom: solid 0.1em #eee;
 }
 
@@ -27,7 +27,11 @@ footer {
   border-top: solid 0.1em #dedede;
   font-size: 1.1em;
   padding: 10px;
-  color: #898989;
+  color: #212121;
+}
+
+footer a {
+  color: #212121;
 }
 
 h4,
