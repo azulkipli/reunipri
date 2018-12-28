@@ -72,7 +72,7 @@ body .p-buttonset.p-button-secondary > .p-button:enabled:focus {
   box-shadow: none;
 }
 body a:active,
-body a:focus{
+body a:focus {
   color: transparent;
   box-shadow: none;
   border: none;
@@ -105,3 +105,13 @@ body a:focus{
 .container-section {
   height: 100%;
 }
+
+/* home style */
+.home .p-multiselect {
+  min-width: 22em;
+}
+body .p-multiselect-panel .p-multiselect-header .p-multiselect-close{
+  margin-top: -0.75em;
+  margin-right: 0.25em;
+}
+/* home style */

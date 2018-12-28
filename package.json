@@ -29,6 +29,7 @@
     "start": "nodemon -w .env -w package.json -w craco.config.js --exec 'craco start'",
     "build:staging": "env-cmd staging.env craco build",
     "build:production": "env-cmd production.env craco build",
+    "build": "craco build",
     "test": "craco test",
     "eject": "craco eject"
   },
