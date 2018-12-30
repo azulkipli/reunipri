@@ -14,7 +14,7 @@ class Home extends React.Component {
       { label: "Rome", value: "RM" },
       { label: "London", value: "LDN" },
       { label: "Istanbul", value: "IST" },
-      { label: "Rome", value: "RM" },
+      { label: "Rome", value: "RM0" },
       { label: "New York", value: "NY2" },
       { label: "Rome", value: "RM2" },
       { label: "London", value: "LDN2" },
